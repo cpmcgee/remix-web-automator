@@ -32,7 +32,7 @@ public class RightPanel extends RemixBase {
 
     public void waitForWarning()
     {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.invisibilityOfElementLocated(warning));
+        new WebDriverWait(driver, 100).until(ExpectedConditions.invisibilityOfElementLocated(warning));
     }
 
     public ContractTab contract()

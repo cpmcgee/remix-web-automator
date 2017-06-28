@@ -1,14 +1,10 @@
-pragma solidity ^0.4.0^
-contract TestContract {^
-
-	uint public number;^
-
-	function TestContract() {^
-		number = 100;^
-	}^
-
-
-	function getNumber() returns (uint number) {^
-		return number;^
-	}^
-}^
+pragma solidity ^0.4.0;
+contract TestContract {
+	uint public number;
+	function TestContract() {
+		number = 100;
+	}
+	function getNumber() returns (uint number) {
+		return number;
+	}
+}

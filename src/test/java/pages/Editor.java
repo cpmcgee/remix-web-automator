@@ -4,6 +4,7 @@ import org.openqa.selenium.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -15,6 +16,8 @@ public class Editor extends RemixBase {
 
     public static final By input = By.cssSelector("#input .ace_text-input");
 
+    public static final By aceContent = By.cssSelector("#input .ace_content");
+
     public FilePanel filePanel;
 
     public Editor(WebDriver driver) {
@@ -22,17 +25,43 @@ public class Editor extends RemixBase {
         filePanel = new FilePanel(driver);
     }
 
+    public void clearEditor()
+    {
+        for (WebElement we : find(aceContent).findElements(By.tagName("span")))
+        {
+            try {
+                we.clear();
+            }
+            catch (Exception ex)
+            {
+                executeScript("arguments[0].innerText=''", we);
+            }
+        }
+    }
+
     public void pasteFromFile(String fileName) throws FileNotFoundException
     {
-        //((JavascriptExecutor)driver).executeScript("ace.setValue('')");
         Scanner s = new Scanner(new File(contractsPath + fileName));
         WebElement textBox = find(input);
-        String handle = driver.getWindowHandle();
         while (s.hasNextLine())
         {
-            //((JavascriptExecutor)driver).executeScript("ace.insert('"+s.next()+"')");
-            textBox.sendKeys(s.nextLine());
+            String nextLine = massage(s.nextLine());
+            if (nextLine.equals("}"))
+            {
+                textBox.sendKeys(Keys.ARROW_DOWN);
+                textBox.sendKeys(Keys.ENTER);
+            }
+            else
+            {
+                textBox.sendKeys(nextLine);
+                textBox.sendKeys(Keys.ENTER);
+            }
         }
+    }
+
+    private String massage(String s)
+    {
+        return s.replace("\t", "");
     }
 
     public void newTab()
@@ -60,21 +89,20 @@ public class Editor extends RemixBase {
         catch(Exception ex){}
     }
 
-    public void renameTab(int index, String name)
+    public void renameTab(String oldName, String newName)
     {
-        WebElement tab = tabAt(index);
-        if (!tab.getAttribute("class").contains("active")) {
-            click(tab);
-            tab = tabAt(index);
+        List<WebElement> files = filePanel.getOpenFileList();
+        for (WebElement we : files)
+        {
+            if (we.getAttribute("innerText").equals(oldName))
+            {
+                we.click();
+                we.click();
+                executeScript("arguments[0].innerText='"+newName+"'", we);
+                we.sendKeys(Keys.ENTER);
+                Alert.dismiss();
+            }
         }
-        click(tab);
-
-        executeScript("arguments[0].setAttribute('value', '" + name + "')", tab.findElement(By.tagName("input")));
-        String handle = driver.getWindowHandle();
-        driver.switchTo().activeElement().sendKeys(Keys.ENTER);
-        driver.switchTo().alert().accept();
-        driver.switchTo().window(handle);
-        //tab.findElement(By.tagName("input")).sendKeys(name);
     }
 
     public WebElement tabAt(int index)

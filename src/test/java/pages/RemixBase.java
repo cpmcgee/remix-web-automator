@@ -4,7 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import util.Configuration;
+import util.DriverFactory;
+import util.Wait;
 
 import java.util.List;
 
@@ -32,4 +35,30 @@ public class RemixBase {
     public void executeScript(String script, Object o) { ((JavascriptExecutor)driver).executeScript(script, o); }
 
     public List<WebElement> findAll(By by) { return driver.findElements(by); }
+
+    public String getWindowHandle()
+    {
+        return driver.getWindowHandle();
+    }
+
+    public static class Alert
+    {
+        public static void dismiss()
+        {
+            if (isPresent())
+                DriverFactory.getDriver().switchTo().alert().dismiss();
+        }
+
+        public static void accept()
+        {
+            if (isPresent())
+                DriverFactory.getDriver().switchTo().alert().accept();
+        }
+
+        public static boolean isPresent()
+        {
+            return ExpectedConditions.alertIsPresent().apply(DriverFactory.getDriver()) != null;
+        }
+    }
+
 }

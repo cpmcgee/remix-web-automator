@@ -71,11 +71,24 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.version}</version>
-                   <configuration>
-                       <forkCount>2</forkCount>
-                       <reuseForks>true</reuseForks>
-                       <includes>/*Test*.class</includes>
-                   </configuration>
+                <executions>
+                    <execution>
+                        <id>test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <forkCount>2</forkCount>
+                            <reuseForks>true</reuseForks>
+                            <useFile>false</useFile>
+                            <includes>
+                                <include>**/Parallel*.java</include>
+                            </includes>
+                            <junitArtifactName>junit:junit</junitArtifactName>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>com.github.temyers</groupId>
@@ -89,11 +102,17 @@
                             <goal>generateRunners</goal>
                         </goals>
                         <configuration>
-                            <glue>/src/test/java/steps</glue>
-                            <featuresDirectory>src/test/java/features</featuresDirectory>
+                            <glue>
+                                <package>steps</package>
+                            </glue>
+                            <featuresDirectory>src/test/resources/features/</featuresDirectory>
+                            <outputDirectory>target/generated-test-sources/cucumber</outputDirectory>
                             <cucumberOutputDir>target/cucumber-parallel</cucumberOutputDir>
                             <format>json,html</format>
-                            <tags>"~@ignored"</tags>
+                            <namingScheme>simple</namingScheme>
+                            <namingPattern>Parallel{c}IT</namingPattern>
+                            <parallelScheme>FEATURE</parallelScheme>
+                            <tags></tags>
                         </configuration>
                     </execution>
                 </executions>
