@@ -9,6 +9,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.RemixBase;
+import pages.rightpanel.ContractTab;
+import pages.rightpanel.Instance;
 import util.DriverFactory.Driver;
 import util.LOGGS;
 import util.Wait;
@@ -55,5 +57,9 @@ public class SimpleSteps extends BaseSteps{
     @Then("^I verify i can compile the contract without errors$")
     public void iVerifyICanCompileTheContractWithoutErrors() throws Throwable {
         RightPanel.contract().clickCreate();
+        Instance instance = RightPanel.contract().getInstance(0); //an instance of a smart track, managed from the contract tab in the right panel
+        String s =instance.getAttribute("number").getValue();
+
+        int x = 1;
     }
 }

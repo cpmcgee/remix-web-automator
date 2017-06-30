@@ -4,6 +4,9 @@ import org.openqa.selenium.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
 
@@ -39,7 +42,7 @@ public class Editor extends RemixBase {
         }
     }
 
-    public void pasteFromFile(String fileName) throws FileNotFoundException
+    public void pasteFromFile(String fileName) throws FileNotFoundException, IOException
     {
         Scanner s = new Scanner(new File(contractsPath + fileName));
         WebElement textBox = find(input);
@@ -57,6 +60,7 @@ public class Editor extends RemixBase {
                 textBox.sendKeys(Keys.ENTER);
             }
         }
+        //textBox.sendKeys(new String(Files.readAllBytes(Paths.get(contractsPath + fileName))));
     }
 
     private String massage(String s)
