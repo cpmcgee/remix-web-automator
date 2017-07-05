@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 /**
  * Created by chris on 6/30/17.
  */
-class Transaction
+public class Transaction
 {
     private WebElement element;
 

@@ -50,6 +50,20 @@ public class Instance {
                 .collect(Collectors.toList());
     }
 
+    public Method getMethod(String name)
+    {
+        List<Method> mds = getMethods();
+        for (Method m : mds)
+        {
+            String n = m.getName();
+            if (n.equalsIgnoreCase(name))
+            {
+                return m;
+            }
+        }
+        return null;
+    }
+
     public List<Method> getMethods()
     {
         return tab.findAll(methodsLocator)

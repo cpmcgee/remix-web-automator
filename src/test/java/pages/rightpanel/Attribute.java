@@ -38,7 +38,7 @@ public class Attribute{
 
         decoded = element.findElement(By.cssSelector(".decoded ol")).getText();
 
-        element.findElement(callButton).click();
+        //element.findElement(callButton).click();
     }
 
     public String getName()
@@ -46,7 +46,7 @@ public class Attribute{
         return element.findElement(callButton).getAttribute("title");
     }
 
-    public String getValue() {return value;}
+    public String getValue() {return value.replace("\"", "");}
     public int getTxCost() {return txCost;}
     public int getExCost() {return exCost;}
     public String getDecoded() {return decoded;}

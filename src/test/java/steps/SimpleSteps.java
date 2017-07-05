@@ -9,9 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.RemixBase;
-import pages.rightpanel.Attribute;
-import pages.rightpanel.ContractTab;
-import pages.rightpanel.Instance;
+import pages.rightpanel.*;
 import util.DriverFactory.Driver;
 import util.LOGGS;
 import util.Wait;
@@ -60,6 +58,18 @@ public class SimpleSteps extends BaseSteps{
         RightPanel.contract().clickCreate();
         Instance instance = RightPanel.contract().getInstance(0); //an instance of a smart track, managed from the contract tab in the right panel
         Attribute a = instance.getAttribute("number");
-        System.out.println(a.getValue());
+        System.out.println("\nValue: " + a.getValue());
+        System.out.println("\nName: " + a.getName());
+        System.out.println("Execution Cost: " + a.getExCost());
+        System.out.println("Transaction Cost: " + a.getTxCost());
+        System.out.println("Decoded: " + a.getDecoded());
+
+        Method m = instance.getMethod("getNumber");
+        m.execute();
+        Transaction t = m.getTransaction(0);
+        System.out.println("\nValue: " + t.getResult());
+        System.out.println("Execution Cost: " + t.getExCost());
+        System.out.println("Transaction Cost: " + t.getTxCost());
+        System.out.println("Decoded: " + t.getDecoded());
     }
 }

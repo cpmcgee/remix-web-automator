@@ -24,6 +24,11 @@ public class Method
         element = we;
     }
 
+    public String getName()
+    {
+        return element.findElement(callButton).getAttribute("title");
+    }
+
     public void execute()
     {
         element.findElement(callButton).click();
