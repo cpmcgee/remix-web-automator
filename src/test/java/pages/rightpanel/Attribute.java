@@ -23,9 +23,9 @@ public class Attribute{
     public Attribute(WebElement we)
     {
         element = we;
-        value = element.findElement(By.cssSelector(".value strong")).getText();
+        value = element.findElement(By.cssSelector(".value .value")).getText().replace("Value:", "").replace(" ", "");
 
-        String subText = element.findElement(By.cssSelector(".gasUsed .gasUsed strong"))
+        String subText = element.findElement(By.cssSelector(".gasUsed .gasUsed"))
                 .getText();
 
         txCost = Integer.parseInt(
@@ -43,7 +43,7 @@ public class Attribute{
 
     public String getName()
     {
-        return element.findElement(callButton).getAttribute("value");
+        return element.findElement(callButton).getAttribute("title");
     }
 
     public String getValue() {return value;}

@@ -24,7 +24,7 @@ class Transaction
 
         result = element.findElement(By.cssSelector(".returned ")).getText().replace("Result:", "");
 
-        String subText = element.findElement(By.cssSelector(".gasUsed .gasUsed strong"))
+        String subText = element.findElement(By.cssSelector(".gasUsed .gasUsed"))
                 .getText();
 
         txCost = Integer.parseInt(

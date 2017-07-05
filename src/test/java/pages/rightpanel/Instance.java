@@ -31,9 +31,11 @@ public class Instance {
 
     public Attribute getAttribute(String name)
     {
-        for (Attribute a : getAttributes())
+        List<Attribute> atbs = getAttributes();
+        for (Attribute a : atbs)
         {
-            if (a.getName() == name)
+            String n = a.getName();
+            if (n.equalsIgnoreCase(name))
             {
                 return a;
             }

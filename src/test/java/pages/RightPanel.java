@@ -19,15 +19,27 @@ public class RightPanel extends RemixBase {
     public static final By handle = By.id("righthand-panel");
     public static final By tabs = By.cssSelector("#menu #options li");
     public static final By warning = By.cssSelector("#output .sol.warning");
-    public static final By contractTab = By.cssSelector("#menu #options li[title='Environment']");
-    public static final By settingsTab = By.cssSelector("#menu #options li[title='Settings']");
-    public static final By filesTab = By.cssSelector("#menu #options li[title='Publish']");
-    public static final By debuggerTab = By.cssSelector("#menu #options li[title='Debugger']");
-    public static final By analysisTab = By.cssSelector("#menu #options li[title='Static Analysis']");
+    public static final By contractTabLoc = By.cssSelector("#menu #options li[title='Environment']");
+    public static final By settingsTabLoc = By.cssSelector("#menu #options li[title='Settings']");
+    public static final By filesTabLoc = By.cssSelector("#menu #options li[title='Publish']");
+    public static final By debuggerTabLoc = By.cssSelector("#menu #options li[title='Debugger']");
+    public static final By analysisTabLoc = By.cssSelector("#menu #options li[title='Static Analysis']");
     public static final By docsTab = By.cssSelector("#menu #options #helpButton");
 
+    public final ContractTab contractTab;
+    public final SettingsTab settingsTab;
+    public final FilesTab filesTab;
+    public final DebuggerTab debuggerTab;
+    public final AnalysisTab analysisTab;
+
     public RightPanel(WebDriver driver) {
+
         super(driver);
+        contractTab = new ContractTab(driver);
+        settingsTab = new SettingsTab(driver);
+        filesTab = new FilesTab(driver);
+        debuggerTab = new DebuggerTab(driver);
+        analysisTab = new AnalysisTab(driver);
     }
 
     public void waitForWarning()
@@ -37,32 +49,32 @@ public class RightPanel extends RemixBase {
 
     public ContractTab contract()
     {
-        click(contractTab);
-        return new ContractTab(driver);
+        click(contractTabLoc);
+        return contractTab;
     }
 
     public SettingsTab settings()
     {
-        click(settingsTab);
-        return new SettingsTab(driver);
+        click(settingsTabLoc);
+        return settingsTab;
     }
 
     public FilesTab files()
     {
-        click(filesTab);
-        return new FilesTab(driver);
+        click(filesTabLoc);
+        return filesTab;
     }
 
     public DebuggerTab debugger()
     {
-        click(debuggerTab);
-        return new DebuggerTab(driver);
+        click(debuggerTabLoc);
+        return debuggerTab;
     }
 
     public AnalysisTab analysis()
     {
-        click(analysisTab);
-        return new AnalysisTab(driver);
+        click(analysisTabLoc);
+        return analysisTab;
     }
 
     public void docs()

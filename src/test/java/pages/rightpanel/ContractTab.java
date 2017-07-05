@@ -3,15 +3,19 @@ package pages.rightpanel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import pages.RemixBase;
 import pages.RightPanel;
 import org.openqa.selenium.NoSuchElementException;
+import util.Wait;
+
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * Created by chris on 6/26/17.
  */
-public class ContractTab extends RightPanel {
+public class ContractTab extends RemixBase {
 
     public static final By createButton = By.cssSelector("#output .createContract button[title='Create']");
 
@@ -40,9 +44,11 @@ public class ContractTab extends RightPanel {
     public void clickCreate() {
         try {
             driver.findElement(createButton).click();
+            //Wait.until(0, (x) -> (int)getInstances().size() > (int)x, 5);
             getInstances();
             latestInstance++;
-        } catch (NoSuchElementException ex) {
+        }
+        catch (NoSuchElementException ex) {
             System.out.println("Could not click create, error is present");
         }
     }

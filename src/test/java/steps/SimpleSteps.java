@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.RemixBase;
+import pages.rightpanel.Attribute;
 import pages.rightpanel.ContractTab;
 import pages.rightpanel.Instance;
 import util.DriverFactory.Driver;
@@ -58,8 +59,7 @@ public class SimpleSteps extends BaseSteps{
     public void iVerifyICanCompileTheContractWithoutErrors() throws Throwable {
         RightPanel.contract().clickCreate();
         Instance instance = RightPanel.contract().getInstance(0); //an instance of a smart track, managed from the contract tab in the right panel
-        String s =instance.getAttribute("number").getValue();
-
-        int x = 1;
+        Attribute a = instance.getAttribute("number");
+        System.out.println(a.getValue());
     }
 }
