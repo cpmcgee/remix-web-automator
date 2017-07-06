@@ -31,32 +31,34 @@ public class Method
         return element.findElement(callButton).getAttribute("title");
     }
 
-    public Method execute()
+    public Transaction execute()
     {
         element.findElement(callButton).click();
         getTransactions();
-        return this;
+        return transactions.get(transactions.size() - 1);
     }
 
-    public Method execute(String args)
+    public Transaction execute(String args)
     {
         element.findElement(callArgs).clear();
         element.findElement(callArgs).sendKeys(args);
-        execute();
-        return this;
+        return execute();
     }
 
-    public Method execute(double args)
+    public Transaction execute(double args)
     {
         element.findElement(callArgs).clear();
         element.findElement(callArgs).sendKeys(Double.toString(args));
-        execute();
-        return this;
+        return execute();
     }
 
     public List<Transaction> getTransactions()
     {
         transactions = element.findElements(txLocator).stream().map(we -> new Transaction(we)).collect(Collectors.toList());
+        //for (WebElement we : element.findElements(txLocator))
+        //{
+        //    transactions.add(new Transaction(we));
+        //}
         return transactions;
     }
 

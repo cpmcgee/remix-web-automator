@@ -111,7 +111,7 @@
                             <format>json,html</format>
                             <namingScheme>simple</namingScheme>
                             <namingPattern>Parallel{c}IT</namingPattern>
-                            <parallelScheme>FEATURE</parallelScheme>
+                            <parallelScheme>SCENARIO</parallelScheme>
                             <tags></tags>
                         </configuration>
                     </execution>

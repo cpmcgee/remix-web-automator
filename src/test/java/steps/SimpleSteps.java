@@ -1,18 +1,16 @@
 package steps;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import pages.FilePanel;
 import pages.RemixBase;
 import pages.rightpanel.*;
 import util.DriverFactory.Driver;
 import util.LOGGS;
-import util.Wait;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by chris on 6/26/17.
@@ -53,39 +51,36 @@ public class SimpleSteps extends BaseSteps{
         Editor.pasteFromFile(fileName);
     }
 
-    @Then("^I verify i can compile the contract without errors$")
-    public void iVerifyICanCompileTheContractWithoutErrors() throws Throwable {
-        String num1 = "100";
-        String num2 = "200";
+    @Then("^I create the contract with an argument of \"([^\"]*)\"$")
+    public void iCreateTheContractWithAnArgumentOf(String arg) throws Throwable {
+        if (arg.equals(""))
+            RightPanel.contract().clickCreate();
+        else
+            RightPanel.contract().clickCreate(arg);
+    }
 
-        RightPanel.contract().clickCreate(num1);
-        Instance instance = RightPanel.contract().getInstance(0); //an instance of a smart contract, managed from the contract tab in the right panel
-        Attribute a = instance.getAttribute("number");
-        Method set = instance.getMethod("setNumber");
-        Method get = instance.getMethod("getNumber");
+    @And("^I verify running \"([^\"]*)\" will return \"([^\"]*)\"$")
+    public void iVerifyRunningWillReturn(String methodName, String result) throws Throwable {
+        Instance contract = RightPanel.contract().getInstance(0);
+        Method method = contract.getMethod(methodName);
+        assertTrue("Method did not return correct " + result, method.execute().getDecoded().contains(result));
+    }
 
-        String s = a.getDecoded();
-        org.junit.Assert.assertTrue(s.contains(num1));
+    @Then("^I run \"([^\"]*)\" with an argument of \"([^\"]*)\"$")
+    public void iRunWithAnArgumentOf(String methodName, String arg) throws Throwable {
+        if (arg.equals(""))
+            RightPanel.contract().getInstance(0).getMethod(methodName).execute();
+        else
+            RightPanel.contract().getInstance(0).getMethod(methodName).execute(arg);
+    }
 
-        set.execute(num2);
-
-        s = a.getDecoded();
-        org.junit.Assert.assertTrue(s.contains(num2));
-
-        s =get.execute().getTransaction(0).getDecoded();
-        org.junit.Assert.assertTrue(s.contains(num2));
-
-        set.execute(300);
-        set.execute(400);
-        System.out.println(get.execute().getTransaction(1).getDecoded());
-        System.out.println(get.execute().getTransaction(0).getDecoded());
-
-        System.out.println("\nValue: " + a.getValue());
-        System.out.println("\nName: " + a.getName());
-        System.out.println("Execution Cost: " + a.getExCost());
-        System.out.println("Transaction Cost: " + a.getTxCost());
-        System.out.println("Decoded: " + a.getDecoded());
-
-
+    @Then("^I verify the \"([^\"]*)\" attribute has a value of \"([^\"]*)\"$")
+    public void iVerifyTheAttributeHasAValueOf(String attributeName, String val) throws Throwable {
+        Instance contract = RightPanel.contract().getInstance(0);
+        Attribute attribute = contract.getAttribute(attributeName);
+        String decoded = attribute.getDecoded();
+        Editor.newTab();
+        FilePanel.openFile("TestContract.sol");
+        assertTrue(decoded.contains(val));
     }
 }

@@ -26,4 +26,14 @@ public class FilePanel extends RemixBase{
         return findAll(files);
     }
 
+    public void openFile(String fileName)
+    {
+        for (WebElement file : getOpenFileList())
+        {
+            if (file.getText().equalsIgnoreCase(fileName))
+            {
+                file.click();
+            }
+        }
+    }
 }

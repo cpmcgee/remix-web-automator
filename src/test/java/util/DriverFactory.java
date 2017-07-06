@@ -1,19 +1,13 @@
 package util;
 
-import com.sun.jmx.remote.internal.ArrayQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Queue;
 
 /**
@@ -23,7 +17,7 @@ public final class DriverFactory {
 
     private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-    private static int driverCount = 0;
+    private static AtomicInteger driverCount = new AtomicInteger(0);
 
     private static Queue<WebDriver> warehouse = new ArrayDeque<WebDriver>();
 
@@ -54,8 +48,7 @@ public final class DriverFactory {
                 default:
                     throw new Exception("DRIVER TOO DRUNK TO DRIVE");
             }
-            driverCount++;
-            LOGGS.info("Produced driver " + driverCount);
+            LOGGS.info("Produced driver " + driverCount.incrementAndGet());
             warehouse.add(driver.get());
             return driver.get();
         }
@@ -69,10 +62,9 @@ public final class DriverFactory {
 
     private static void shutdown()
     {
-        int count = 0;
         for (WebDriver d : warehouse)
         {
-            LOGGS.info("Shutting down driver " + ++count);
+            LOGGS.info("Shutting down driver " + driverCount.decrementAndGet());
             warehouse.remove().quit();
         }
     }

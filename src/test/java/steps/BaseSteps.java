@@ -1,6 +1,7 @@
 package steps;
 
 import org.openqa.selenium.WebDriver;
+import pages.FilePanel;
 import pages.RightPanel;
 import util.DriverFactory;
 import pages.Editor;
@@ -15,17 +16,18 @@ public class BaseSteps {
     protected WebDriver driver;
     protected RightPanel RightPanel;
     protected Editor Editor;
+    protected FilePanel FilePanel;
 
     public BaseSteps()
     {
         driver = DriverFactory.getDriver();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         RightPanel = new RightPanel(driver);
+        FilePanel = new FilePanel(driver);
         Editor = new Editor(driver);
     }
 
-    public void beforeAll()
-    {
+    public void beforeAll() {
 
     }
 }

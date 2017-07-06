@@ -1,15 +1,9 @@
 package pages.rightpanel;
 
-import com.sun.xml.internal.ws.commons.xmlutil.Converter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import pages.RemixBase;
-import pages.RightPanel;
 import org.openqa.selenium.NoSuchElementException;
-import util.Wait;
-
-import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
