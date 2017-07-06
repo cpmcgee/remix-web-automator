@@ -17,6 +17,8 @@ public class Method
 
     private final By txLocator = By.cssSelector(".output .result");
 
+    private final By callArgs = By.cssSelector(".contractProperty input");
+
     private List<Transaction> transactions;
 
     public Method(WebElement we)
@@ -29,10 +31,27 @@ public class Method
         return element.findElement(callButton).getAttribute("title");
     }
 
-    public void execute()
+    public Method execute()
     {
         element.findElement(callButton).click();
         getTransactions();
+        return this;
+    }
+
+    public Method execute(String args)
+    {
+        element.findElement(callArgs).clear();
+        element.findElement(callArgs).sendKeys(args);
+        execute();
+        return this;
+    }
+
+    public Method execute(double args)
+    {
+        element.findElement(callArgs).clear();
+        element.findElement(callArgs).sendKeys(Double.toString(args));
+        execute();
+        return this;
     }
 
     public List<Transaction> getTransactions()

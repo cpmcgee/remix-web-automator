@@ -4,7 +4,7 @@ contract TestContract {
 	function TestContract() {
 		number = 100;
 	}
-	function getNumber() returns (uint number) {
+	function getNumber() returns (uint num) {
 		return number;
 	}
 }

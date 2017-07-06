@@ -35,10 +35,13 @@ public class Transaction
         exCost = Integer.parseInt(
                 subText.replaceAll("\\D+", ""));
 
-        decoded = element.findElement(By.cssSelector(".decoded ol")).getText();
+        try {
+            decoded = element.findElement(By.cssSelector(".decoded ol")).getText();
+        }
+        catch (Exception ex){}
     }
 
-    public String getResult() {return result;}
+    public String getResult() {return result.replace("\"", "");}
     public int getTxCost() {return txCost;}
     public int getExCost() {return exCost;}
     public String getDecoded() {return decoded;}

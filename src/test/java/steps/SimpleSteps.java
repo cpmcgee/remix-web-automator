@@ -33,7 +33,7 @@ public class SimpleSteps extends BaseSteps{
 
     @And("^I wait for the page and compiler to load$")
     public void iWaitForThePageAndCompilerToLoad() throws Throwable {
-        RightPanel.waitForWarning();
+        //RightPanel.waitForWarning();
     }
 
     @And("^I delete the default tab$")
@@ -55,21 +55,37 @@ public class SimpleSteps extends BaseSteps{
 
     @Then("^I verify i can compile the contract without errors$")
     public void iVerifyICanCompileTheContractWithoutErrors() throws Throwable {
-        RightPanel.contract().clickCreate();
-        Instance instance = RightPanel.contract().getInstance(0); //an instance of a smart track, managed from the contract tab in the right panel
+        String num1 = "100";
+        String num2 = "200";
+
+        RightPanel.contract().clickCreate(num1);
+        Instance instance = RightPanel.contract().getInstance(0); //an instance of a smart contract, managed from the contract tab in the right panel
         Attribute a = instance.getAttribute("number");
+        Method set = instance.getMethod("setNumber");
+        Method get = instance.getMethod("getNumber");
+
+        String s = a.getDecoded();
+        org.junit.Assert.assertTrue(s.contains(num1));
+
+        set.execute(num2);
+
+        s = a.getDecoded();
+        org.junit.Assert.assertTrue(s.contains(num2));
+
+        s =get.execute().getTransaction(0).getDecoded();
+        org.junit.Assert.assertTrue(s.contains(num2));
+
+        set.execute(300);
+        set.execute(400);
+        System.out.println(get.execute().getTransaction(1).getDecoded());
+        System.out.println(get.execute().getTransaction(0).getDecoded());
+
         System.out.println("\nValue: " + a.getValue());
         System.out.println("\nName: " + a.getName());
         System.out.println("Execution Cost: " + a.getExCost());
         System.out.println("Transaction Cost: " + a.getTxCost());
         System.out.println("Decoded: " + a.getDecoded());
 
-        Method m = instance.getMethod("getNumber");
-        m.execute();
-        Transaction t = m.getTransaction(0);
-        System.out.println("\nValue: " + t.getResult());
-        System.out.println("Execution Cost: " + t.getExCost());
-        System.out.println("Transaction Cost: " + t.getTxCost());
-        System.out.println("Decoded: " + t.getDecoded());
+
     }
 }

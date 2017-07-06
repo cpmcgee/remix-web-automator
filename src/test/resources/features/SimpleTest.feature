@@ -5,5 +5,5 @@ Feature: As a user of remix, I can compile syntactically correct smart contracts
     And I wait for the page and compiler to load
     And I delete the default tab
     And I create a new tab called "TestContract.sol"
-    And I load into the tab the code from "TestContract.txt"
+    And I load into the tab the code from "TestContract2.txt"
     Then I verify i can compile the contract without errors

@@ -1,5 +1,6 @@
 package pages.rightpanel;
 
+import com.sun.xml.internal.ws.commons.xmlutil.Converter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,6 +19,8 @@ import java.util.stream.Collectors;
 public class ContractTab extends RemixBase {
 
     public static final By createButton = By.cssSelector("#output .createContract button[title='Create']");
+
+    public static final By createArg = By.cssSelector("#output .createContract .contractProperty input");
 
     public static final By envDropdown = By.id("selectExEnvOptions");
 
@@ -43,7 +46,33 @@ public class ContractTab extends RemixBase {
 
     public void clickCreate() {
         try {
-            driver.findElement(createButton).click();
+            find(createButton).click();
+            //Wait.until(0, (x) -> (int)getInstances().size() > (int)x, 5);
+            getInstances();
+            latestInstance++;
+        }
+        catch (NoSuchElementException ex) {
+            System.out.println("Could not click create, error is present");
+        }
+    }
+
+    public void clickCreate(String arg) {
+        try {
+            find(createArg).sendKeys(arg);
+            find(createButton).click();
+            //Wait.until(0, (x) -> (int)getInstances().size() > (int)x, 5);
+            getInstances();
+            latestInstance++;
+        }
+        catch (NoSuchElementException ex) {
+            System.out.println("Could not click create, error is present");
+        }
+    }
+
+    public void clickCreate(double arg) {
+        try {
+            find(createArg).sendKeys(Double.toString(arg));
+            find(createButton).click();
             //Wait.until(0, (x) -> (int)getInstances().size() > (int)x, 5);
             getInstances();
             latestInstance++;

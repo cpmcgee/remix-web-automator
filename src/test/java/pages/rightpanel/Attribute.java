@@ -2,6 +2,7 @@ package pages.rightpanel;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import util.Wait;
 
 /**
  * Created by chris on 6/30/17.
@@ -23,31 +24,55 @@ public class Attribute{
     public Attribute(WebElement we)
     {
         element = we;
-        value = element.findElement(By.cssSelector(".value .value")).getText().replace("Value:", "").replace(" ", "");
 
         String subText = element.findElement(By.cssSelector(".gasUsed .gasUsed"))
                 .getText();
-
+        value = element.findElement(By.cssSelector(".value .value"))
+                .getText().replace("Value:", "")
+                .replace(" ", "")
+                .replace("\"", "");
         txCost = Integer.parseInt(
                 element.findElement(By.cssSelector(".gasUsed"))
                         .getText().replace(subText, "")
                         .replaceAll("\\D+", ""));
-
         exCost = Integer.parseInt(
                 subText.replaceAll("\\D+", ""));
-
         decoded = element.findElement(By.cssSelector(".decoded ol")).getText();
-
-        //element.findElement(callButton).click();
     }
 
     public String getName()
     {
+        //element.findElement(callButton).click();
         return element.findElement(callButton).getAttribute("title");
     }
 
-    public String getValue() {return value.replace("\"", "");}
-    public int getTxCost() {return txCost;}
-    public int getExCost() {return exCost;}
-    public String getDecoded() {return decoded;}
+    public String getValue()
+    {
+        element.findElement(callButton).click();
+        return element.findElement(By.cssSelector(".value .value"))
+                .getText().replace("Value:", "")
+                .replace(" ", "")
+                .replace("\"", "");
+    }
+
+    public int getTxCost() {
+        element.findElement(callButton).click();
+        String subText = element.findElement(By.cssSelector(".gasUsed .gasUsed"))
+                .getText();
+        return Integer.parseInt(
+                element.findElement(By.cssSelector(".gasUsed"))
+                        .getText().replace(subText, "")
+                        .replaceAll("\\D+", ""));
+    }
+    public int getExCost() {
+        element.findElement(callButton).click();
+        String subText = element.findElement(By.cssSelector(".gasUsed .gasUsed"))
+                .getText();
+        return Integer.parseInt(
+                subText.replaceAll("\\D+", ""));
+    }
+    public String getDecoded() {
+        element.findElement(callButton).click();
+        return element.findElement(By.cssSelector(".decoded ol")).getText();
+    }
 }
