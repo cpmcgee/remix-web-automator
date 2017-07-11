@@ -4,11 +4,10 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-import pages.FilePanel;
 import pages.RemixBase;
 import pages.rightpanel.*;
 import util.DriverFactory.Driver;
-import util.LOGGS;
+import util.LOG;
 
 import static org.junit.Assert.assertTrue;
 
@@ -25,7 +24,7 @@ public class SimpleSteps extends BaseSteps{
 
     @Given("^I navigate to the remix website$")
     public void iNavigateToTheRemixWebsite() throws Throwable {
-        LOGGS.info("step 1");
+        LOG.info("step 1");
         Driver.load(RemixBase.URL);
     }
 
@@ -79,8 +78,6 @@ public class SimpleSteps extends BaseSteps{
         Instance contract = RightPanel.contract().getInstance(0);
         Attribute attribute = contract.getAttribute(attributeName);
         String decoded = attribute.getDecoded();
-        Editor.newTab();
-        FilePanel.openFile("TestContract.sol");
         assertTrue(decoded.contains(val));
     }
 }

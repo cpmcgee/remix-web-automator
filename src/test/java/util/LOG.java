@@ -3,7 +3,7 @@ package util;
 /**
  * Created by chris on 6/27/17.
  */
-public final class LOGGS {
+public final class LOG {
 
     public static String path = Configuration.getLogDirectory();
 

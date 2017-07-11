@@ -11,8 +11,8 @@ import static java.lang.System.getProperty;
  */
 public final class Configuration {
 
-    private static String path = "/home/chris/IdeaProjects/basicframework/src/config.txt";
-
+    private static String path = "src/test/resources/config.txt";
+    //MavenProject project = new MavenProject();
     private static Properties props = new Properties();
 
     public static final String FIREFOX = "firefox";
@@ -38,27 +38,15 @@ public final class Configuration {
 
     public static String getContractsDirectory() { return props.getProperty("contracts.directory"); }
 
-    public static String getBrowserType()
-    {
-        return props.getProperty("browser.type");
-    }
+    public static String getBrowserType() { return props.getProperty("browser.type"); }
 
     public static String getGridEnabled() { return props.getProperty("enable.grid"); }
 
-    public static String getFirefoxPath()
-    {
-        return props.getProperty("firefox.driver");
-    }
+    public static String getFirefoxPath() { return props.getProperty("firefox.driver"); }
 
-    public static String getChromePath()
-    {
-        return props.getProperty("chrome.driver");
-    }
+    public static String getChromePath() { return props.getProperty("chrome.driver"); }
 
-    public static String getHubUrl()
-    {
-        return props.getProperty("hub.url");
-    }
+    public static String getHubUrl() { return props.getProperty("hub.url"); }
 
     public static String getLogDirectory() { return props.getProperty("log.directory"); }
 }

@@ -5,3 +5,4 @@ chrome.driver=/home/chris/Desktop/selenium/chromedriver
 firefox.driver=/home/chris/Desktop/selenium/geckodriver
 contracts.directory=/home/chris/IdeaProjects/basicframework/contracts/
 log.directory=/home/chris/IdeaProjects/basicframework/logs/
+parallel.enabled=true

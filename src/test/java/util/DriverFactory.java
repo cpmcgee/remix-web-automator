@@ -17,11 +17,11 @@ public final class DriverFactory {
 
     private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-    private static AtomicInteger driverCount = new AtomicInteger(0);
+    private static volatile AtomicInteger driverCount = new AtomicInteger(0);
 
-    private static Queue<WebDriver> warehouse = new ArrayDeque<WebDriver>();
+    private static volatile Queue<WebDriver> warehouse = new ArrayDeque<WebDriver>();
 
-    static {Runtime.getRuntime().addShutdownHook(new Thread(DriverFactory::shutdown)); }
+    static { Runtime.getRuntime().addShutdownHook(new Thread(DriverFactory::shutdown)); }
 
     public static WebDriver getDriver()
     {
@@ -48,13 +48,16 @@ public final class DriverFactory {
                 default:
                     throw new Exception("DRIVER TOO DRUNK TO DRIVE");
             }
-            LOGGS.info("Produced driver " + driverCount.incrementAndGet());
-            warehouse.add(driver.get());
+
+            synchronized (driverCount) {
+                LOG.info("Produced driver " + driverCount.incrementAndGet());
+                warehouse.add(driver.get());
+            }
             return driver.get();
         }
         catch(Exception ex)
         {
-            LOGGS.info("EXCEPTION CAUGHT CREATING DRIVER:\n " );
+            LOG.info("EXCEPTION CAUGHT CREATING DRIVER:\n " );
             ex.printStackTrace();
             return null;
         }
@@ -64,7 +67,7 @@ public final class DriverFactory {
     {
         for (WebDriver d : warehouse)
         {
-            LOGGS.info("Shutting down driver " + driverCount.decrementAndGet());
+            LOG.info("Shutting down driver " + warehouse.size());
             warehouse.remove().quit();
         }
     }

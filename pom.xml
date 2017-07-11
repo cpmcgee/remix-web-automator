@@ -14,6 +14,7 @@
         <maven.surefire.version>2.19.1</maven.surefire.version>
         <junit.version>4.11</junit.version>
         <cucumber.parallel.version>4.1.0</cucumber.parallel.version>
+        <parallel.enabled>false</parallel.enabled>
     </properties>
 
     <dependencies>
@@ -67,52 +68,21 @@
 
     <build>
         <plugins>
+
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surefire.version}</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.0.0</version>
                 <executions>
                     <execution>
-                        <id>test</id>
-                        <phase>test</phase>
+                        <phase>initialize</phase>
                         <goals>
-                            <goal>test</goal>
+                            <goal>read-project-properties</goal>
                         </goals>
                         <configuration>
-                            <forkCount>2</forkCount>
-                            <reuseForks>true</reuseForks>
-                            <useFile>false</useFile>
-                            <includes>
-                                <include>**/Parallel*.java</include>
-                            </includes>
-                            <junitArtifactName>junit:junit</junitArtifactName>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.github.temyers</groupId>
-                <artifactId>cucumber-jvm-parallel-plugin</artifactId>
-                <version>${cucumber.parallel.version}</version>
-                <executions>
-                    <execution>
-                        <id>generateRunners</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>generateRunners</goal>
-                        </goals>
-                        <configuration>
-                            <glue>
-                                <package>steps</package>
-                            </glue>
-                            <featuresDirectory>src/test/resources/features/</featuresDirectory>
-                            <outputDirectory>target/generated-test-sources/cucumber</outputDirectory>
-                            <cucumberOutputDir>target/cucumber-parallel</cucumberOutputDir>
-                            <format>json,html</format>
-                            <namingScheme>simple</namingScheme>
-                            <namingPattern>Parallel{c}IT</namingPattern>
-                            <parallelScheme>SCENARIO</parallelScheme>
-                            <tags></tags>
+                            <files>
+                                <file>src/test/resources/config.txt</file>
+                            </files>
                         </configuration>
                     </execution>
                 </executions>
@@ -127,5 +97,110 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>parallel</id>
+            <activation>
+
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>parallel.enabled</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.temyers</groupId>
+                        <artifactId>cucumber-jvm-parallel-plugin</artifactId>
+                        <version>${cucumber.parallel.version}</version>
+                        <executions>
+                            <execution>
+                                <id>generateRunners</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>generateRunners</goal>
+                                </goals>
+                                <configuration>
+                                    <glue>
+                                        <package>steps</package>
+                                    </glue>
+                                    <featuresDirectory>src/test/resources/features/</featuresDirectory>
+                                    <outputDirectory>target/generated-test-sources/cucumber</outputDirectory>
+                                    <cucumberOutputDir>target/cucumber-parallel</cucumberOutputDir>
+                                    <format>json,html</format>
+                                    <namingScheme>simple</namingScheme>
+                                    <namingPattern>Parallel{c}IT</namingPattern>
+                                    <parallelScheme>SCENARIO</parallelScheme>
+                                    <tags></tags>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${maven.surefire.version}</version>
+                        <executions>
+                            <execution>
+                                <id>test</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
+                                <configuration>
+                                    <forkCount>2</forkCount>
+                                    <reuseForks>true</reuseForks>
+                                    <useFile>false</useFile>
+                                    <includes>
+                                        <include>**/Parallel*IT.java</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>**/*Test*.java</exclude>
+                                    </excludes>
+                                    <junitArtifactName>junit:junit</junitArtifactName>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>single</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <property>
+                    <name>parallel.enabled</name>
+                    <value>false</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${maven.surefire.version}</version>
+                        <executions>
+                            <execution>
+                                <id>RunTestsNoParallel</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
+                                <configuration>
+                                    <includes>
+                                        <include>**/*Test*.java</include>
+                                    </includes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
