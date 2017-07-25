@@ -27,7 +27,6 @@ public final class Configuration {
         catch(IOException ex) {
             System.out.println("Error opening util file!");
         }
-
         System.setProperty("webdriver.gecko.driver", getFirefoxPath());
         System.setProperty("webdriver.chrome.driver", getChromePath());
         System.setProperty("hub.url", getHubUrl());
@@ -49,4 +48,6 @@ public final class Configuration {
     public static String getHubUrl() { return props.getProperty("hub.url"); }
 
     public static String getLogDirectory() { return props.getProperty("log.directory"); }
+
+    public static String getLogFile() { return System.getProperty("logFile"); }
 }

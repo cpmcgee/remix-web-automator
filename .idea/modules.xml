@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/basicframework.iml" filepath="$PROJECT_DIR$/basicframework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/miscutilplugin/miscutilplugin.iml" filepath="$PROJECT_DIR$/miscutilplugin/miscutilplugin.iml" />
     </modules>
   </component>
 </project>
