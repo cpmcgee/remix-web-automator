@@ -6,12 +6,8 @@
 
     <groupId>cmcgee</groupId>
     <artifactId>basic-framework</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
-
-    <modules>
-        <module>miscutilplugin</module>
-    </modules>
 
     <properties>
         <selenium.version>3.4.0</selenium.version>
@@ -19,7 +15,7 @@
         <maven.surefire.version>2.19.1</maven.surefire.version>
         <junit.version>4.11</junit.version>
         <cucumber.parallel.version>4.1.0</cucumber.parallel.version>
-        <parallel.enabled>false</parallel.enabled>
+        <parallel.enabled>true</parallel.enabled>
     </properties>
 
     <dependencies>
@@ -80,33 +76,10 @@
             <version>3.4</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>cmcgee</groupId>
-            <artifactId>misc-util-plugin</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>properties-maven-plugin</artifactId>
-                <version>1.0.0</version>
-                <executions>
-                    <execution>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>read-project-properties</goal>
-                        </goals>
-                        <configuration>
-                            <files>
-                                <file>src/test/resources/config.txt</file>
-                            </files>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -115,19 +88,6 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>cmcgee</groupId>
-                <artifactId>misc-util-plugin</artifactId>
-                <version>1.0-SNAPSHOT</version>
-                <executions>
-                    <execution>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>initializeLogger</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
@@ -135,7 +95,6 @@
         <profile>
             <id>parallel</id>
             <activation>
-
                 <activeByDefault>true</activeByDefault>
                 <property>
                     <name>parallel.enabled</name>
@@ -159,10 +118,9 @@
                                     <glue>
                                         <package>steps</package>
                                     </glue>
-                                    <featuresDirectory>src/test/resources/features/</featuresDirectory>
+                                    <featuresDirectory>src/test/resources/features</featuresDirectory>
                                     <outputDirectory>target/generated-test-sources/cucumber</outputDirectory>
                                     <cucumberOutputDir>target/cucumber-parallel</cucumberOutputDir>
-                                    <format>json,html</format>
                                     <namingScheme>simple</namingScheme>
                                     <namingPattern>Parallel{c}IT</namingPattern>
                                     <parallelScheme>SCENARIO</parallelScheme>
@@ -177,7 +135,7 @@
                         <version>${maven.surefire.version}</version>
                         <executions>
                             <execution>
-                                <id>test</id>
+                                <id>Parallel</id>
                                 <phase>test</phase>
                                 <goals>
                                     <goal>test</goal>
@@ -185,9 +143,10 @@
                                 <configuration>
                                     <forkCount>2</forkCount>
                                     <reuseForks>true</reuseForks>
-                                    <useFile>false</useFile>
+                                    <useFile>true</useFile>
                                     <includes>
                                         <include>**/Parallel*IT.java</include>
+                                        <include>target/generated-test-sources/cucumber/*</include>
                                     </includes>
                                     <excludes>
                                         <exclude>**/*Test*.java</exclude>

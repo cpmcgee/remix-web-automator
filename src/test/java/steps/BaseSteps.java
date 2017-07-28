@@ -5,6 +5,7 @@ import pages.FilePanel;
 import pages.RightPanel;
 import util.DriverFactory;
 import pages.Editor;
+import util.LOG;
 
 import java.util.concurrent.TimeUnit;
 
@@ -20,6 +21,7 @@ public class BaseSteps {
 
     public BaseSteps()
     {
+        LOG.init();
         driver = DriverFactory.getDriver();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         RightPanel = new RightPanel(driver);

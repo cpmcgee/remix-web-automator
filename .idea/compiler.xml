@@ -6,7 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="miscutilplugin" />
+        <module name="basicframework" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">

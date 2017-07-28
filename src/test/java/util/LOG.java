@@ -21,10 +21,16 @@ public final class LOG {
 
     private static BufferedWriter writer;
 
-    public static void init() throws IOException {
-        path = Configuration.getLogDirectory();
-        file = path + "log.txt";
-        writer = new BufferedWriter(new FileWriter(file));
+    public static void init() {
+        try {
+            path = Configuration.getLogDirectory();
+            file = path + "log.txt";
+            writer = new BufferedWriter(new FileWriter(file));
+        }
+        catch(Exception ex)
+        {
+            System.out.println("Failed to create logger");
+        }
     }
 
     public static void info(String entry){

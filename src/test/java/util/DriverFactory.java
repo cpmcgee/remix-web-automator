@@ -79,8 +79,7 @@ public final class DriverFactory {
             return getDriver();
         }
 
-        public static void load(String url)
-        {
+        public static void load(String url) {
             get().get(url);
         }
     }
