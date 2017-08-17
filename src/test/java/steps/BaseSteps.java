@@ -19,8 +19,7 @@ public class BaseSteps {
     protected Editor Editor;
     protected FilePanel FilePanel;
 
-    public BaseSteps()
-    {
+    public BaseSteps() {
         LOG.init();
         driver = DriverFactory.getDriver();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
